@@ -41,11 +41,11 @@ struct V3
 {
     union {
         struct {
-            V2 xy;
+            union {
+                V2 xy;
+                struct { f32 x, y; };
+            };
             f32 z;
-        };
-        struct {
-            f32 x, y, z;
         };
         f32 e[3];
     };

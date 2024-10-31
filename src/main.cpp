@@ -66,7 +66,6 @@ struct Mouse_State
 };
 
 
-
 static b32
 mouse_is_in_rect(V2 mouse_P, Rect2 rect)
 {
@@ -94,6 +93,7 @@ struct UI_Context
 {
     s32 active;
     s32 hot;
+    f32 hot_z;
 };
 struct UI
 {
@@ -162,8 +162,16 @@ struct UI
         {
             if (mouse_is_in_rect(mouse_P, Rect2{cen.xy - half_dim, cen.xy + half_dim}))
             {
-                context->hot = id;
-                color = hot_color;
+                if (context->hot == 0 || context->hot_z < cen.z)
+                {
+                    context->hot = id;
+                    context->hot_z = cen.z;
+                    color = hot_color;
+                }
+                else
+                {
+                    color = cold_color;
+                }
             }
             else
             {
@@ -276,6 +284,11 @@ int main()
                     push_ui(ui_list, V3{window_dim*0.5f, 2}, V2{100, 100}, V4{1, 0, 0, 0.5f}, V4{1, 0, 0, 1});
                     push_ui(ui_list, V3{window_dim*0.4f, 1}, V2{90, 70}, V4{0, 1, 0, 0.5f}, V4{0, 1, 0, 1});
                     push_ui(ui_list, V3{window_dim*0.3f, 0}, V2{120, 130}, V4{0, 0, 1, 0.5f}, V4{0, 0, 1, 1});
+                    auto comp = [] (UI a, UI b)
+                    {
+                        return a.cen.z > b.cen.z;
+                    };
+                    ui_list.sort(comp);
 
                     b32 should_close = 0;
                     f32 prev_time = 0;
