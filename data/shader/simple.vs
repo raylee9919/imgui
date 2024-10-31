@@ -1,11 +1,13 @@
-#version 330 core
+layout(location = 0) in v3 vP;
+layout(location = 1) in v4 vC;
 
-// Input vertex data, different for all executions of this shader.
-layout(location = 0) in vec3 vertexPosition_modelspace;
+uniform m4x4  P;
 
-void main(){
+smooth out v4 fC;
 
-    gl_Position.xyz = vertexPosition_modelspace;
-    gl_Position.w = 1.0;
+void main()
+{
+    fC = vC;
 
+    gl_Position = P * v4(vP, 1.0f);
 }

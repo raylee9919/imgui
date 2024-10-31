@@ -43,3 +43,7 @@ typedef double f64;
 
 #define F32_MIN FLT_MIN
 #define F32_MAX FLT_MAX
+
+#define KB(X) ((X) << 10LL)
+#define MB(X) (KB(X) << 10LL)
+#define GB(X) (MB(X) << 10LL)

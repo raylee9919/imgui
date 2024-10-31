@@ -1,12 +1,8 @@
-#version 330 core
+smooth in v4 fC;
 
-// Ouput data
-out vec3 color;
+out v4 C;
 
 void main()
 {
-
-	// Output color = red 
-	color = vec3(1,0,0);
-
+    C = fC;
 }

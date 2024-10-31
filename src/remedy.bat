@@ -1,2 +1,2 @@
 @echo off
-start remedybg rbg.rdbg
+start remedybg ..\misc\rbg.rdbg
