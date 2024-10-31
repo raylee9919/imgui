@@ -47,6 +47,7 @@ struct V3
         struct {
             f32 x, y, z;
         };
+        f32 e[3];
     };
 };
 
@@ -80,4 +81,21 @@ struct Rect2
     V2 max;
 };
 
+inline f32
+lerp(f32 a, f32 t, f32 b)
+{
+    f32 result = a + (b - a) * t;
+    return result;
+}
 
+inline V4
+lerp(V4 a, f32 t, V4 b)
+{
+    V4 result = V4{
+        lerp(a.r, t, b.r),
+        lerp(a.g, t, b.g),
+        lerp(a.b, t, b.b),
+        lerp(a.a, t, b.a)
+    };
+    return result;
+}

@@ -8,6 +8,7 @@
 #include <list>
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "include/stb_truetype.h"
@@ -105,7 +106,9 @@ struct UI
 
     V2 prev_mouse_P;
 
-    void update_and_render(UI_Context *context, Mouse_State *mouse_state,
+    f32 active_t;
+
+    void update_and_render(UI_Context *context, Mouse_State *mouse_state, f32 dt,
                            std::vector<Render_Element> &batch, Memory_Arena *arena)
     {
         V2 mouse_P = mouse_state->P;
@@ -124,7 +127,11 @@ struct UI
             {
                 cen.xy += (mouse_P - prev_mouse_P);
                 prev_mouse_P = mouse_P;
-                color = V4{1, 1, 1, 1};
+
+                f32 t = sin(active_t);
+                t *= t;
+                active_t += dt*3.0f;
+                color = lerp(hot_color, t, V4{1, 1, 1, 1});
             }
         }
         else if (context->hot == id)
@@ -138,6 +145,7 @@ struct UI
                     color = hot_color;
 
                     prev_mouse_P = mouse_P;
+                    active_t = 0.0f;
                 }
                 else
                 {
@@ -330,7 +338,7 @@ int main()
                         // IMGUI
                         for (UI &ui : ui_list)
                         {
-                            ui.update_and_render(&ui_context, &mouse_state, render_batch, &transient_state->transient_arena);
+                            ui.update_and_render(&ui_context, &mouse_state, dt, render_batch, &transient_state->transient_arena);
                         }
 
                         //printf("HOT:%d, ACTIVE:%d\n", ui_context.hot, ui_context.active);
