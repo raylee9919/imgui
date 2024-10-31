@@ -1,5 +1,6 @@
-u32 LoadShaders(const char *vs_file,
-                const char *fs_file)
+static u32
+load_and_compile_shader(const char *vs_file,
+                            const char *fs_file)
 {
     u32 pid = 0;
 

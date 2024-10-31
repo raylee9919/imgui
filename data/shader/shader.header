@@ -14,3 +14,13 @@
 #define uv3     uvec3
 #define uv4     uvec4
 #define b32     bool
+
+v4 to_srgb(v4 C)
+{
+    v4 result;
+    result.r = sqrt(C.r);
+    result.g = sqrt(C.g);
+    result.b = sqrt(C.b);
+    result.a = C.a;
+    return result;
+}

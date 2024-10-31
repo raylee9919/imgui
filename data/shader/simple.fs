@@ -4,5 +4,6 @@ out v4 C;
 
 void main()
 {
-    C = fC;
+    // To sRGB.
+    C = to_srgb(fC);
 }
